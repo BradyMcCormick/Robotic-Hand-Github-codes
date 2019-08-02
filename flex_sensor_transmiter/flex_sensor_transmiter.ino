@@ -1,25 +1,10 @@
-/******************************************************************************
-  Flex_Sensor_Example.ino
-  Example sketch for SparkFun's flex sensors
-  (https://www.sparkfun.com/products/10264)
-  Jim Lindblom @ SparkFun Electronics
-  April 28, 2016
 
-  Create a voltage divider circuit combining a flex sensor with a 47k resistor.
-  - The resistor should connect from A0 to GND.
-  - The flex sensor should connect from A0 to 3.3V
-  As the resistance of the flex sensor increases (meaning it's being bent), the
-  voltage at A0 should decrease.
-
-  Development environment specifics:
-  Arduino 1.6.7
-******************************************************************************/
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
 
 RF24 radio(7, 10); // CE, CSN         
-const byte address[6] = "00001";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
+const byte address[6] = "lerf2";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
 
 const int FLEX_PIN0 = A0; // Pin connected to voltage divider output
 const int FLEX_PIN1 = A1;
@@ -31,14 +16,14 @@ const int FLEX_PIN3 = A3;
 const float VCC = 5.00; // Measured voltage of Ardunio 5V line
 const float R_DIV = 21000.0; // Measured resistance of 3.3k resistor
 
-const float STRAIGHT_RESISTANCE0 = 8500.0; // resistance when straight
-const float BEND_RESISTANCE0 = 17100; // resistance at 90 deg
+const float STRAIGHT_RESISTANCE0 = 11000.0; // resistance when straight
+const float BEND_RESISTANCE0 = 20000; // resistance at 90 deg
 const float STRAIGHT_RESISTANCE1 = 9900.0;
-const float BEND_RESISTANCE1 = 19300;
+const float BEND_RESISTANCE1 = 17000;
 const float STRAIGHT_RESISTANCE2 = 9500.0;
-const float BEND_RESISTANCE2 = 15400;
+const float BEND_RESISTANCE2 = 19500;
 const float STRAIGHT_RESISTANCE3 = 10200.0;
-const float BEND_RESISTANCE3 = 19500;
+const float BEND_RESISTANCE3 = 15000;
 
 //  Creating a struct in order to send the data
 typedef struct{

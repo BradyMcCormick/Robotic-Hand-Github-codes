@@ -4,7 +4,7 @@
 #include <Servo.h>
 
 RF24 radio(7, 10); // CE, CSN
-const byte address[6] = "00001";
+const byte address[6] = "lerf2";
 
 //  Creating a struct in order to send the data
 typedef struct{
@@ -44,45 +44,41 @@ if (radio.available()) {            //Looking for the data.
     radio.read(&text0, sizeof(text0));    //Reading the data
     Serial.println(text0);
 }
+if ((angles.A > 4294967040.0) && (angles.B > 4294967040.0) && (angles.C > 4294967040.0)
+  && (angles.D > 4294967040.0) && (angles.A < -4294967040.0) && (angles.B < -4294967040.0) 
+  && (angles.C < -4294967040.0) && (angles.D < -4294967040.0)){
+    return;
+  }
 
 // Printing struct data
 Serial.print("angles.A = ");
 Serial.print(angles.A);
-Serial.print("angles.B = ");
+Serial.print("\nangles.B = ");
 Serial.print(angles.B);
-Serial.print("angles.C = ");
+Serial.print("\nangles.C = ");
 Serial.print(angles.C);
-Serial.print("angles.D = ");
+Serial.print("\nangles.D = ");
 Serial.print(angles.D);
 
 // This is for the servos
-  if (angles.A > 60) {
-    servo9.write(180);
+   if (angles.A > 180) {
+    angles.A = 180;
   }
-  else {
-    servo9.write(0);
+    servo9.write(180 - angles.A);
+  
+  if (angles.B > 180) {
+    angles.B = 180;
   }
+    servo6.write(180 - angles.B);
+    
+  if (angles.C > 180) {
+    angles.C = 180;
+  }
+    servo5.write(180 - (angles.C*2));
 
-  if (angles.B > 60) {
-    servo6.write(180);
+  if (angles.D > 180) {
+    angles.D = 180;
   }
-  else {
-    servo6.write(0);
-  }
+    servo3.write(180 - angles.D);
 
-  if (angles.C > 60) {
-    servo5.write(180);
-  }
-  else {
-    servo5.write(0);
-  }
-
-  if (angles.D > 60) {
-    servo3.write(180);
-  }
-  else {
-    servo3.write(0);
-  }
-
-delay(50);
 }
